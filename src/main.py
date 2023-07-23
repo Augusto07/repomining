@@ -1,7 +1,7 @@
 from github import Github
 from github import Auth
 
-auth = Auth.Token("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")
+auth = Auth.Token("")
 
 g = Github(auth=auth)
 
