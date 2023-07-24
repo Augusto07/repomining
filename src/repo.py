@@ -1,9 +1,11 @@
 
 class Repo:
-    def __init__(self):
+    def __init__(self, name):
+        self.name = name
+        self.languages = []
         self.num_commits = 0
         self.num_files = 0
-        self.ext = {} #extensões e numero de arquivos por extensão
+        self.ext = {} #extensões e arquivos por extensão
         self.num_commits_file = {} #arquivos e numero de commits por arquivo
         self.stars = 0
         self.watchers = 0
@@ -12,8 +14,8 @@ class Repo:
         self.num_issues = 0
         return
     
-    def add_num_commits(self):
-        self.num_commits += 1
+    def add_num_commits(self, number):
+        self.num_commits += number
         return
 
     def add_num_files(self):
@@ -53,5 +55,10 @@ class Repo:
     def add_issue(self):
         self.num_issues += 1
         return
+    
+    def add_language(self, lang):
+        
+        if lang not in self.languages:
+            self.languages.append(lang)
     
     
