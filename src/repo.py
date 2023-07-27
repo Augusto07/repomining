@@ -1,15 +1,15 @@
 
 class Repo:
     def __init__(self, name):
-        self.name = name
-        self.languages = []
-        self.num_commits = 0
-        self.num_files = 0
+        self.name = name #done
+        self.languages = [] #done
+        self.num_commits = 0 #done
+        self.num_files = 0 #done
         self.ext = {} #extensões e arquivos por extensão
-        self.num_commits_file = {} #arquivos e numero de commits por arquivo
-        self.stars = 0
-        self.watchers = 0
-        self.forks = 0
+        self.num_commits_file = {} #arquivos e numero de commits por arquivo 
+        self.stars = 0 #done
+        self.watchers = 0 #done
+        self.forks = 0 #done
         self.num_pull_req = 0
         self.num_issues = 0
         return
@@ -36,16 +36,16 @@ class Repo:
             self.num_commits_file[filename] = 1
         return
 
-    def add_star(self):
-        self.stars += 1
+    def add_star(self, number):
+        self.stars = number
         return
     
-    def add_watcher(self):
-        self.watchers += 1
+    def add_watcher(self, number):
+        self.watchers = number
         return
     
-    def add_fork(self):
-        self.forks += 1
+    def add_fork(self, number):
+        self.forks = number
         return
     
     def add_pull_req(self):
