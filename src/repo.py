@@ -11,7 +11,8 @@ class Repo:
         self.watchers = 0 #done
         self.forks = 0 #done
         self.num_pull_req = 0
-        self.num_issues = 0
+        self.num_issues_open = 0
+        self.num_issues_closed = 0
         return
     
     def add_num_commits(self, number):
