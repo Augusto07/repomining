@@ -14,7 +14,7 @@ def get_files(dir, obj, repo):
 
 def main():
 
-    auth = Auth.Token("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")
+    auth = Auth.Token("")
     g = Github(auth=auth)
     project = g.get_user("googlesamples")
     repos = project.get_repos()
