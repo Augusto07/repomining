@@ -10,9 +10,12 @@ class Repo:
         self.stars = 0 #done
         self.watchers = 0 #done
         self.forks = 0 #done
-        self.num_pull_req = 0
-        self.num_issues_open = 0
-        self.num_issues_closed = 0
+        self.num_pull_req_open = 0 #done
+        self.num_pull_req_closed = 0 #done
+        self.num_pull_req_total = 0 #done
+        self.num_issues_open = 0 #done
+        self.num_issues_closed = 0 #done
+        self.num_issues_total = 0 #done
         return
     
     def add_num_commits(self, number):
@@ -49,12 +52,19 @@ class Repo:
         self.forks = number
         return
     
-    def add_pull_req(self):
-        self.num_pull_req += 1
+    def add_pull_req(self, repo):
+        
+        self.num_pull_req_open = repo.get_pulls(state='open').totalCount
+        self.num_pull_req_closed = repo.get_pulls(state='closed').totalCount
+        self.num_pull_req_total = repo.get_pulls(state='all').totalCount
         return
     
-    def add_issue(self):
-        self.num_issues += 1
+    def add_issue(self, repo):
+
+        self.num_issues_open = repo.get_issues(state = 'open').totalCount
+        self.num_issues_closed = repo.get_issues(state = 'closed').totalCount
+        self.num_issues_total = repo.get_issues(state = 'all').totalCount
+        
         return
     
     def add_language(self, lang):

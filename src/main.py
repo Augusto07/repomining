@@ -14,7 +14,7 @@ def get_files(dir, obj, repo):
 
 def main():
 
-    auth = Auth.Token("")
+    auth = Auth.Token("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")
     g = Github(auth=auth)
     project = g.get_user("googlesamples")
     repos = project.get_repos()
@@ -29,10 +29,12 @@ def main():
             new_repo  = Repo(repo.name) #add name
             new_repo.add_language(repo.language) #add lang
             new_repo.add_num_commits(repo.get_commits().totalCount) #add number of commits
-            get_files(repo.get_contents('.'), new_repo, repo)
+            #get_files(repo.get_contents('.'), new_repo, repo)
             new_repo.add_star(repo.stargazers_count)
             new_repo.add_watcher(repo.watchers_count)
             new_repo.add_fork(repo.forks_count)
+            new_repo.add_issue(repo)
+            new_repo.add_pull_req(repo)
             print(new_repo.ext)
             count += 1
             reps.append(new_repo)
