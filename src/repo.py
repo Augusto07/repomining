@@ -5,8 +5,8 @@ class Repo:
         self.languages = [] #done
         self.num_commits = 0 #done
         self.num_files = 0 #done
-        self.ext = {} #extensões e arquivos por extensão
-        self.num_commits_file = {} #arquivos e numero de commits por arquivo 
+        self.ext = {} #extensões e arquivos por extensão #done  
+        self.num_commits_file = {} #arquivos e numero de commits por arquivo #done
         self.stars = 0 #done
         self.watchers = 0 #done
         self.forks = 0 #done

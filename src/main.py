@@ -12,6 +12,19 @@ def get_files(dir, obj, repo):
             obj.add_ext(_.path.split('.')[-1], _.name) #add pair ext-file
     return
 
+
+def get_commits_per_file(obj, repo):
+
+    commits = repo.get_commits()
+    for commit in commits:
+        commit_arquivos = commit.files
+        for arquivo in commit_arquivos:
+            caminho_arquivo = arquivo.filename
+            obj.add_commit_file(caminho_arquivo)
+
+    print(obj.num_commits_file)
+    return
+
 def main():
 
     auth = Auth.Token("")
@@ -35,6 +48,7 @@ def main():
             new_repo.add_fork(repo.forks_count)
             new_repo.add_issue(repo)
             new_repo.add_pull_req(repo)
+            get_commits_per_file(new_repo, repo)
             print(new_repo.ext)
             count += 1
             reps.append(new_repo)
