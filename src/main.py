@@ -53,7 +53,7 @@ def main():
             count += 1
             reps.append(new_repo)
 
-    print(count)
+    return reps
 
 if __name__ == '__main__':
     main()
