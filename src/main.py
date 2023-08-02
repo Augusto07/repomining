@@ -1,6 +1,7 @@
 from github import Github
 from github import Auth
 from repo import Repo
+import csv
 
 
 def get_files(dir, obj, repo):
@@ -25,9 +26,39 @@ def get_commits_per_file(obj, repo):
     print(obj.num_commits_file)
     return
 
+def write_csv_general(reps):
+
+    with open('repos_info.csv', mode='w', newline='') as csvfile:
+
+        fieldnames = ['name', 'languages', 'num_commits', 'num_files', 'stars', 'watchers',
+                      'forks', 'num_pull_req_open', 'num_pull_req_closed', 'num_pull_req_total',
+                      'num_issues_open', 'num_issues_closed', 'num_issues_total']
+        
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        writer.writeheader()
+
+        for repo in reps:
+            writer.writerow({
+                'name': repo.name,
+                'languages': ', '.join(repo.languages),
+                'num_commits': repo.num_commits,
+                'num_files': repo.num_files,
+                'stars': repo.stars,
+                'watchers': repo.watchers,
+                'forks': repo.forks,
+                'num_pull_req_open': repo.num_pull_req_open,
+                'num_pull_req_closed': repo.num_pull_req_closed,
+                'num_pull_req_total': repo.num_pull_req_total,
+                'num_issues_open': repo.num_issues_open,
+                'num_issues_closed': repo.num_issues_closed,
+                'num_issues_total': repo.num_issues_total,
+            })
+    return
+
 def main():
 
-    auth = Auth.Token("")
+    auth = Auth.Token("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")
     g = Github(auth=auth)
     project = g.get_user("googlesamples")
     repos = project.get_repos()
@@ -48,10 +79,12 @@ def main():
             new_repo.add_fork(repo.forks_count)
             new_repo.add_issue(repo)
             new_repo.add_pull_req(repo)
-            get_commits_per_file(new_repo, repo)
+            #get_commits_per_file(new_repo, repo)
             print(new_repo.ext)
             count += 1
             reps.append(new_repo)
+    
+    write_csv_general(reps)
 
     return reps
 
