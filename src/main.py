@@ -77,9 +77,28 @@ def write_csv_arq_ext(reps):
                     })
     return
 
+def write_csv_arq_commit(reps):
+
+    with open('arq_file_info.csv', mode='w', newline='') as csvfile:
+
+        fieldnames = ['name', 'file_name', 'commit_num']
+        
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        writer.writeheader()
+
+        for repo in reps:
+            for filename, commits in repo.num_commits_file.items():
+                writer.writerow({
+                    'name': repo.name,
+                    'file_name': str(filename),
+                    'commit_num': commits,
+                })
+    return
+
 def main():
 
-    auth = Auth.Token("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")
+    auth = Auth.Token("")
     g = Github(auth=auth)
     project = g.get_user("googlesamples")
     repos = project.get_repos()
@@ -100,13 +119,14 @@ def main():
             new_repo.add_fork(repo.forks_count)
             new_repo.add_issue(repo)
             new_repo.add_pull_req(repo)
-            #get_commits_per_file(new_repo, repo)
+            get_commits_per_file(new_repo, repo)
             print(new_repo.ext)
             count += 1
             reps.append(new_repo)
     
     write_csv_general(reps)
     write_csv_arq_ext(reps)
+    write_csv_arq_commit(reps)
 
     return reps
 
