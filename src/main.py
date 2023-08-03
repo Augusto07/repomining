@@ -4,13 +4,14 @@ from repo import Repo
 import csv
 
 
-def get_files(dir, obj, repo):
+def get_files(dir, obj, repo, current_path = ""):
+
     for _ in dir:
         if _.type == 'dir':
-            get_files(repo.get_contents(_.path), obj, repo)
+            get_files(repo.get_contents(_.path), obj, repo, current_path=_.path)
         elif _.type == 'file':
             obj.add_num_files() #add file
-            obj.add_ext(_.path.split('.')[-1], _.name) #add pair ext-file
+            obj.add_ext(_.path.split('.')[-1], current_path + _.name) #add pair ext-file
     return
 
 
@@ -56,9 +57,29 @@ def write_csv_general(reps):
             })
     return
 
+def write_csv_arq_ext(reps):
+
+    with open('arq_ext_info.csv', mode='w', newline='') as csvfile:
+
+        fieldnames = ['name', 'ext', 'file_name']
+        
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        writer.writeheader()
+
+        for repo in reps:
+            for ext, files in repo.ext.items():
+                for file in files:
+                    writer.writerow({
+                        'name': repo.name,
+                        'ext': '.'+ str(ext),
+                        'file_name': file,
+                    })
+    return
+
 def main():
 
-    auth = Auth.Token("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")
+    auth = Auth.Token("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")
     g = Github(auth=auth)
     project = g.get_user("googlesamples")
     repos = project.get_repos()
@@ -73,7 +94,7 @@ def main():
             new_repo  = Repo(repo.name) #add name
             new_repo.add_language(repo.language) #add lang
             new_repo.add_num_commits(repo.get_commits().totalCount) #add number of commits
-            #get_files(repo.get_contents('.'), new_repo, repo)
+            get_files(repo.get_contents('.'), new_repo, repo)
             new_repo.add_star(repo.stargazers_count)
             new_repo.add_watcher(repo.watchers_count)
             new_repo.add_fork(repo.forks_count)
@@ -85,6 +106,7 @@ def main():
             reps.append(new_repo)
     
     write_csv_general(reps)
+    write_csv_arq_ext(reps)
 
     return reps
 
