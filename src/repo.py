@@ -28,7 +28,8 @@ class Repo:
     
     def add_ext(self, ext, file):
         if ext in self.ext:
-            self.ext[ext].append(file)
+            if file not in self.ext[ext]:
+                self.ext[ext].append(file)
         else:
             self.ext[ext] = [file]
         return
