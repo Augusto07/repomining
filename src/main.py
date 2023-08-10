@@ -89,7 +89,7 @@ def write_csv_arq_commit(reps):
 
 def main():
 
-    auth = Auth.Token("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")
+    auth = Auth.Token("")
     g = Github(auth=auth)
     project = g.get_user("googlesamples")
     repos = project.get_repos()
