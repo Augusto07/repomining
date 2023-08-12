@@ -1,6 +1,7 @@
 from github import Github
 from github import Auth
 from repo import Repo
+import requests
 import csv
 
 
@@ -87,9 +88,23 @@ def write_csv_arq_commit(reps):
                 })
     return
 
-def main():
 
-    auth = Auth.Token("")
+def mining_from_api(auth_token, repo_name):
+
+    url = f"https://api.github.com/repos/googlesamples/{repo_name}"
+    header = {}
+    header["Authorization"] = auth_token
+
+    response = requests.get(url, headers=header)
+
+    if response.status_code == 200:
+        dados_repositorio = response.json()
+        numero_watchers = dados_repositorio["subscribers_count"]
+        return numero_watchers
+
+def mining_from_pkg(auth_token):
+
+    auth = Auth.Token(auth_token)
     g = Github(auth=auth)
     project = g.get_user("googlesamples")
     repos = project.get_repos()
@@ -105,7 +120,7 @@ def main():
             new_repo.add_language(repo.language) #add lang
             new_repo.add_num_commits(repo.get_commits().totalCount) #add number of commits
             new_repo.add_star(repo.stargazers_count)
-            new_repo.add_watcher(repo.watchers_count)
+            new_repo.add_watcher(mining_from_api(auth_token, repo.name))
             new_repo.add_fork(repo.forks_count)
             new_repo.add_issue(repo)
             new_repo.add_pull_req(repo)
@@ -119,6 +134,14 @@ def main():
     write_csv_arq_commit(reps)
 
     return reps
+
+
+
+def main():
+
+    auth_token = input("insira o token:")
+    mining_from_pkg(auth_token)
+    return
 
 if __name__ == '__main__':
     main()
